@@ -5,7 +5,6 @@ import ru.sber.appointment.filter.DoctorFilter;
 import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.service.DoctorServiceImpl;
 
-import javax.print.Doc;
 import java.util.List;
 
 @RestController
