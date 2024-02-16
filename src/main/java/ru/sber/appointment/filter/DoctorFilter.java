@@ -19,9 +19,9 @@ public class DoctorFilter {
             System.out.println(doctor.getLastName());
             resultDoctorList.retainAll(doctorService.findByLastName(doctor.getLastName()));
         }
-        if (doctor.getPost() != null){
-            System.out.println(doctor.getPost());
-            resultDoctorList.retainAll(doctorService.findByPost(doctor.getPost()));
+        if (doctor.getSpecialization() != null){
+            System.out.println(doctor.getSpecialization());
+            resultDoctorList.retainAll(doctorService.findBySpecialization(doctor.getSpecialization()));
         }
         return resultDoctorList;
     }

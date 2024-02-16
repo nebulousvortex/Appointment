@@ -8,7 +8,7 @@ interface DoctorService {
     List<Doctor> findAllDoctors();
     void saveDoctor(Doctor doctor);
     void deleteDoctor(Doctor doctor);
-    List<Doctor> findByPost(String post);
+    List<Doctor> findBySpecialization(String specialization);
     List<Doctor> findByFirstName(String firstName);
     List<Doctor> findByLastName(String lastName);
     void updateDoctor(Doctor doctor);

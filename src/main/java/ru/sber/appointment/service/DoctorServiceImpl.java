@@ -34,8 +34,8 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<Doctor> findByPost(String post) {
-        return repository.findByPost(post);
+    public List<Doctor> findBySpecialization(String specialization) {
+        return repository.findBySpecialization(specialization);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class Doctor {
     @Column(name = "Фамилия")
     private String lastName;
     @Column(name = "Должность")
-    private String post;
+    private String specialization;
     public void setId(Long id) {
         this.id = id;
     }
@@ -24,14 +24,14 @@ public class Doctor {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public void setPost(String post) {
-        this.post = post;
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
     public String getLastName() {
         return lastName;
     }
-    public String getPost() {
-        return post;
+    public String getSpecialization() {
+        return specialization;
     }
     public String getFirstName() {
         return firstName;
