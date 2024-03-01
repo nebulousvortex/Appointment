@@ -9,16 +9,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/doctors")
-public class ListDoctorController {
+public class DoctorController {
 
     private final DoctorServiceImpl doctorService;
     private final DoctorFilter filter;
-    public ListDoctorController(DoctorServiceImpl doctorService, DoctorFilter filter) {
+    public DoctorController(DoctorServiceImpl doctorService, DoctorFilter filter) {
         this.doctorService = doctorService;
         this.filter = filter;
     }
 
-    @GetMapping("")
+    @GetMapping("/get")
     public List<Doctor> findDoctors(@RequestBody(required = false) Doctor doctor){
         if (doctor != null) {
             return filter.filterDoctor(doctorService, doctor);
@@ -26,15 +26,15 @@ public class ListDoctorController {
         return doctorService.findAllDoctors();
     }
 
-    @PostMapping("")
+    @PostMapping("/post")
     public void saveDoctor(@RequestBody Doctor doctor){
         doctorService.saveDoctor(doctor);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/delete")
     public void deleteDoctor(@RequestBody Doctor doctor){ doctorService.deleteDoctor(doctor); }
 
-    @PutMapping("")
+    @PutMapping("/put")
     public void updateDoctor(@RequestBody Doctor doctor){
         doctorService.updateDoctor(doctor);
     }
