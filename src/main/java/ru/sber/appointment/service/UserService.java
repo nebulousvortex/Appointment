@@ -11,11 +11,7 @@ import ru.sber.appointment.model.User;
 import ru.sber.appointment.repository.RoleRepository;
 import ru.sber.appointment.repository.UserRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {

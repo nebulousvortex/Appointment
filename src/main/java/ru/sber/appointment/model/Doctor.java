@@ -1,9 +1,6 @@
 package ru.sber.appointment.model;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
-import java.util.Set;
 
 
 @Entity

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.sber.appointment.model.jwt_model.JwtRequest;
 import ru.sber.appointment.model.jwt_model.JwtResponse;
-import ru.sber.appointment.model.RefreshJwtRequest;
+import ru.sber.appointment.model.jwt_model.RefreshJwtRequest;
 import ru.sber.appointment.service.AuthService;
 
 import javax.security.auth.message.AuthException;
