@@ -57,12 +57,12 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<Doctor> findByFirstName(String firstName) {
-        return repository.findByFirstName(firstName);
+        return repository.findByUser(userRepository.findByFirstName(firstName).get(0));
     }
 
     @Override
     public List<Doctor> findByLastName(String lastName) {
-        return repository.findByLastName(lastName);
+        return repository.findByUser(userRepository.findByLastName(lastName).get(0));
     }
 
     @Override
