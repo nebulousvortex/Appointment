@@ -1,6 +1,8 @@
 package ru.sber.appointment.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -13,6 +15,8 @@ public class Doctor {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Schedule> schedules = new ArrayList<>();
 
     public void setId(Long id) {
         this.id = id;
