@@ -1,4 +1,4 @@
-package ru.sber.appointment.utils;
+package ru.sber.appointment.jwt_manager;
 
 import io.jsonwebtoken.Claims;
 import ru.sber.appointment.configuration.JwtAuthentication;

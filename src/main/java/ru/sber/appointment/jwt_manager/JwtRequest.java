@@ -1,11 +1,9 @@
-package ru.sber.appointment.model.jwt_model;
+package ru.sber.appointment.jwt_manager;
 
 public class JwtRequest {
 
     private String login;
     private String password;
-
-
 
     public void setLogin(String login) {
         this.login = login;

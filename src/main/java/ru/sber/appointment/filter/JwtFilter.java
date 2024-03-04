@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 import ru.sber.appointment.configuration.JwtAuthentication;
-import ru.sber.appointment.model.jwt_model.JwtProvider;
-import ru.sber.appointment.utils.JwtUtils;
+import ru.sber.appointment.jwt_manager.JwtProvider;
+import ru.sber.appointment.jwt_manager.JwtUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
