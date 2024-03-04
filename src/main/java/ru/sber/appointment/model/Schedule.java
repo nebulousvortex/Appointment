@@ -1,20 +1,25 @@
 package ru.sber.appointment.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "schedule")
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
-    @ManyToOne
-    @JoinColumn(name = "day_type_id")
+    @Enumerated(EnumType.STRING)
     private DayType dayType;
-    private Date date;
+    private LocalDate date;
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> tickets = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -28,7 +33,7 @@ public class Schedule {
         return dayType;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -44,7 +49,7 @@ public class Schedule {
         this.dayType = dayType;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }
