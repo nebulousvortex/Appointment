@@ -6,9 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.xml.crypto.Data;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "t_user")
@@ -26,6 +24,22 @@ public class User implements UserDetails {
     private Date dateOfBirth;
     @Transient
     private String passwordConfirm;
+    @ManyToMany (cascade = CascadeType.ALL)
+    @JoinTable(name = "t_user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Doctor doctor;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> tickets = new ArrayList<>();
+
+    @PreRemove
+    private void removeRoles() {
+        roles.clear();
+    }
 
     public void setSurName(String surName) {
         this.surName = surName;
@@ -57,16 +71,6 @@ public class User implements UserDetails {
 
     public Date getDateOfBirth() {
         return dateOfBirth;
-    }
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
-
-    @Transient
-    @OneToOne(mappedBy = "user_id")
-    private User user;
-
-    public User() {
     }
 
     public Long getId() {
