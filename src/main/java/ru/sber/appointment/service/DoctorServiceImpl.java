@@ -4,69 +4,64 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import ru.sber.appointment.model.Doctor;
-import ru.sber.appointment.model.User;
 import ru.sber.appointment.repository.DoctorRepository;
 import ru.sber.appointment.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Primary
 public class DoctorServiceImpl implements DoctorService {
     @Autowired
-    private final DoctorRepository repository;
+    DoctorRepository doctorRepository;
     @Autowired
-    private final UserRepository userRepository;
-
+    UserService userService;
     @Autowired
-    public DoctorServiceImpl(DoctorRepository doctorRepository, UserRepository userRepository) {
-        this.repository = doctorRepository;
-        this.userRepository = userRepository;
-    }
+    UserRepository userRepository;
 
     @Override
     public List<Doctor> findAllDoctors() {
-        return repository.findAll();
+        return doctorRepository.findAll();
     }
 
     @Override
     public void saveDoctor(Doctor doctor) {
-//        if(doctor.getUser() != null) {
-//            Optional<User> users = userRepository.findById(doctor.getUser().getId());
-//            if( users.isPresent()){
-//                User user = users.get();
-//                doctor.setUser(user);
-//                doctor.setFirstName(user.getFirstName());
-//                doctor.setLastName(user.getLastName());
-//                repository.save(doctor);
-//            }
-//        };
-        repository.save(doctor);
-    }
-
-    @Override
-    public void deleteDoctor(Doctor doctor) {
-        repository.delete(doctor);
+        doctor.setUser(userRepository.findByUsername(doctor.getUser().getUsername()));
+        userService.updateUserRole(doctor.getUser(), 2L);
+        doctorRepository.save(doctor);
     }
 
     @Override
     public List<Doctor> findBySpecialization(String specialization) {
-        return repository.findBySpecialization(specialization);
+        return doctorRepository.findBySpecialization(specialization);
     }
 
     @Override
     public List<Doctor> findByFirstName(String firstName) {
-        return repository.findByUser(userRepository.findByFirstName(firstName).get(0));
+        return doctorRepository.findByUser(userRepository.findByFirstName(firstName).get(0));
     }
 
     @Override
     public List<Doctor> findByLastName(String lastName) {
-        return repository.findByUser(userRepository.findByLastName(lastName).get(0));
+        return doctorRepository.findByUser(userRepository.findByLastName(lastName).get(0));
     }
 
     @Override
-    public void updateDoctor(Doctor doctor) {
-        repository.save(doctor);
+    public void updateDoctor(Doctor unknownDoctor) {
+        if(doctorRepository.findById(unknownDoctor.getId()).isPresent()){
+            Doctor doctor = doctorRepository.findById(unknownDoctor.getId()).get();
+            doctor.setSpecialization(unknownDoctor.getSpecialization());
+            doctorRepository.save(doctor);
+        }
+    }
+
+    @Override
+    public void deleteDoctor(Doctor unknownDoctor) {
+        if (doctorRepository.findById(unknownDoctor.getId()).isPresent()){
+            Doctor doctor = doctorRepository.findById(unknownDoctor.getId()).get();
+            userService.updateUserRole(doctor.getUser(), 1L);
+            doctorRepository.delete(doctor);
+        }
+
     }
 }
