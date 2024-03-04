@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.sber.appointment.model.User;
 import ru.sber.appointment.service.UserService;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping("/api/v1/registration")
 public class RegistrationController {

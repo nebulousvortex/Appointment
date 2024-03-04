@@ -1,7 +1,6 @@
 package ru.sber.appointment.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.User;
 
 import java.util.List;

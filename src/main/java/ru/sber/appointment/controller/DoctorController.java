@@ -1,5 +1,6 @@
 package ru.sber.appointment.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.appointment.filter.DoctorFilter;
 import ru.sber.appointment.model.Doctor;
@@ -11,12 +12,10 @@ import java.util.List;
 @RequestMapping("/api/v1/doctors")
 public class DoctorController {
 
-    private final DoctorServiceImpl doctorService;
-    private final DoctorFilter filter;
-    public DoctorController(DoctorServiceImpl doctorService, DoctorFilter filter) {
-        this.doctorService = doctorService;
-        this.filter = filter;
-    }
+    @Autowired
+    DoctorServiceImpl doctorService;
+    @Autowired
+    DoctorFilter filter;
 
     @GetMapping("/get")
     public List<Doctor> findDoctors(@RequestBody(required = false) Doctor doctor){

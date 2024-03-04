@@ -7,9 +7,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.sber.appointment.configuration.JwtAuthentication;
-import ru.sber.appointment.model.jwt_model.JwtProvider;
-import ru.sber.appointment.model.jwt_model.JwtRequest;
-import ru.sber.appointment.model.jwt_model.JwtResponse;
+import ru.sber.appointment.jwt_manager.JwtProvider;
+import ru.sber.appointment.jwt_manager.JwtRequest;
+import ru.sber.appointment.jwt_manager.JwtResponse;
 import ru.sber.appointment.model.User;
 
 import javax.security.auth.message.AuthException;

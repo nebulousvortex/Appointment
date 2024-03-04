@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.sber.appointment.model.jwt_model.JwtRequest;
-import ru.sber.appointment.model.jwt_model.JwtResponse;
-import ru.sber.appointment.model.jwt_model.RefreshJwtRequest;
+import ru.sber.appointment.jwt_manager.JwtRequest;
+import ru.sber.appointment.jwt_manager.JwtResponse;
+import ru.sber.appointment.jwt_manager.RefreshJwtRequest;
 import ru.sber.appointment.service.AuthService;
 
 import javax.security.auth.message.AuthException;
@@ -18,11 +18,7 @@ import javax.security.auth.message.AuthException;
 public class AuthController {
 
     @Autowired
-    private final AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+    AuthService authService;
 
     @PostMapping("login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) {
