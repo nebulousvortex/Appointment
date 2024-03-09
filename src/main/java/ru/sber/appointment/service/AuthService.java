@@ -34,7 +34,6 @@ public class AuthService {
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         final User user = (User) userService.loadUserByUsername(authRequest.getLogin());
         if ( bCryptPasswordEncoder.matches(authRequest.getPassword(), user.getPassword())){
-                //user.getPassword().equals(authRequest.getPassword())) {
             final String accessToken = jwtProvider.generateAccessToken(user);
             final String refreshToken = jwtProvider.generateRefreshToken(user);
             refreshStorage.put(user.getUsername(), refreshToken);
