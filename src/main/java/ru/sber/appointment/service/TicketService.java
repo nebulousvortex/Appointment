@@ -2,12 +2,18 @@ package ru.sber.appointment.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.Schedule;
 import ru.sber.appointment.model.Ticket;
 import ru.sber.appointment.model.User;
+import ru.sber.appointment.repository.DoctorRepository;
+import ru.sber.appointment.repository.ScheduleRepository;
 import ru.sber.appointment.repository.TicketRepository;
 import ru.sber.appointment.repository.UserRepository;
+
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,6 +22,10 @@ public class TicketService {
     TicketRepository ticketRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    DoctorRepository doctorRepository;
+    @Autowired
+    ScheduleRepository scheduleRepository;
     public List<Ticket> findAllTickets() {
         return ticketRepository.findAll();
     }
@@ -29,6 +39,23 @@ public class TicketService {
         Ticket ticket = ticketRepository.findById(unknownTicket.getId()).orElseThrow();
         ticket.setUser(user);
         ticketRepository.save(ticket);
+    }
+
+    public List<Ticket> findDoctorTicket(Doctor unknownDoctor){
+        Doctor doctor = doctorRepository.findById(unknownDoctor.getId()).orElseThrow();
+        List<Schedule> futureSchedules = scheduleRepository.findAllByDoctorAndDateAfter(doctor, LocalDate.now());
+
+        List<Ticket> tickets = new ArrayList<>();
+        for (Schedule schedule : futureSchedules) {
+            List<Ticket> doctorTickets = ticketRepository.findAllBySchedule(schedule);
+            for (Ticket ticket : doctorTickets) {
+                if (ticket.getUser() == null) {
+                    tickets.add(ticket);
+                }
+            }
+        }
+
+        return tickets;
     }
 
     public void saveForDay(Schedule schedule){
