@@ -1,7 +1,9 @@
 package ru.sber.appointment.filter;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -15,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
@@ -33,11 +36,18 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
             throws IOException, ServletException {
         final String token = getTokenFromRequest((HttpServletRequest) request);
-        if (token != null && jwtProvider.validateAccessToken(token)) {
-            final Claims claims = jwtProvider.getAccessClaims(token);
-            final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
-            jwtInfoToken.setAuthenticated(true);
-            SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
+        try {
+            if (token != null && jwtProvider.validateAccessToken(token)) {
+                final Claims claims = jwtProvider.getAccessClaims(token);
+                final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
+                jwtInfoToken.setAuthenticated(true);
+                SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
+            }
+        } catch (ExpiredJwtException e) {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+            httpResponse.getWriter().write("JWT token has expired");
+            return;
         }
         fc.doFilter(request, response);
     }
