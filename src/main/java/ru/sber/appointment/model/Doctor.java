@@ -18,6 +18,13 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
+    public Doctor(Long doctorId) {
+        this.id = doctorId;
+    }
+
+    public Doctor() {
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

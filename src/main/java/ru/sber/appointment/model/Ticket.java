@@ -2,8 +2,6 @@ package ru.sber.appointment.model;
 
 import javax.persistence.*;
 import java.time.LocalTime;
-import java.util.Date;
-import java.util.Timer;
 
 @Entity
 @Table(name = "ticket")

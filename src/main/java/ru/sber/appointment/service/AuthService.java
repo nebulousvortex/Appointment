@@ -55,6 +55,7 @@ public class AuthService {
                 return new JwtResponse(accessToken, null);
             }
         }
+
         return new JwtResponse(null, null);
     }
 
