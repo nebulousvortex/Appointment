@@ -4,6 +4,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.crypto.Data;
 import java.util.*;
@@ -14,14 +17,32 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Имя не может быть пустым")
     private String firstName;
+
+    @NotBlank(message = "Фамилия не может быть пустой")
     private String lastName;
+
+    @NotBlank(message = "Отчество не может быть пустым")
     private String surName;
+
+    @NotBlank(message = "Имя пользователя не может быть пустым")
     private String username;
+
+    @NotBlank(message = "Пароль не может быть пустым")
     private String password;
+
+    @NotBlank(message = "Email не может быть пустым")
+    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Неверный формат email")
     private String mail;
+
+    @NotBlank(message = "Номер телефона не может быть пустым")
+    @Pattern(regexp = "\\d{11}", message = "Номер телефона должен содержать 10 цифр")
     private String phone;
+
+    @NotNull(message = "Дата рождения обязательна")
     private Date dateOfBirth;
+    @NotBlank(message = "")
     @Transient
     private String passwordConfirm;
     @ManyToMany (cascade = CascadeType.ALL)
