@@ -4,9 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import ru.sber.appointment.model.Doctor;
+import ru.sber.appointment.model.User;
 import ru.sber.appointment.repository.DoctorRepository;
-import ru.sber.appointment.repository.UserRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -17,7 +18,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     UserService userService;
     @Autowired
-    UserRepository userRepository;
+    ScheduleService scheduleService;
 
     @Override
     public List<Doctor> findAllDoctors() {
@@ -26,7 +27,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public void saveDoctor(Doctor doctor) {
-        doctor.setUser(userRepository.findByUsername(doctor.getUser().getUsername()));
+        doctor.setUser(userService.findByUsername(doctor.getUser().getUsername()));
         userService.updateUserRole(doctor.getUser(), 2L);
         doctorRepository.save(doctor);
     }
@@ -38,12 +39,12 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<Doctor> findByFirstName(String firstName) {
-        return doctorRepository.findByUser(userRepository.findByFirstName(firstName).get(0));
+        return Collections.singletonList(doctorRepository.findByUser((User) userService.findByFirstName(firstName).get(0)));
     }
 
     @Override
     public List<Doctor> findByLastName(String lastName) {
-        return doctorRepository.findByUser(userRepository.findByLastName(lastName).get(0));
+        return Collections.singletonList(doctorRepository.findByUser((User) userService.findByLastName(lastName).get(0)));
     }
 
     @Override
@@ -53,6 +54,16 @@ public class DoctorServiceImpl implements DoctorService {
             doctor.setSpecialization(unknownDoctor.getSpecialization());
             doctorRepository.save(doctor);
         }
+    }
+
+    @Override
+    public Doctor findById(Long id) {
+        return doctorRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public Doctor findByUser(User user) {
+        return (Doctor) doctorRepository.findByUser(user);
     }
 
     @Override
