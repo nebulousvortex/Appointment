@@ -6,10 +6,8 @@ import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.Schedule;
 import ru.sber.appointment.model.Ticket;
 import ru.sber.appointment.model.User;
-import ru.sber.appointment.repository.DoctorRepository;
 import ru.sber.appointment.repository.ScheduleRepository;
 import ru.sber.appointment.repository.TicketRepository;
-import ru.sber.appointment.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,11 +17,13 @@ import java.util.List;
 @Service
 public class TicketService {
     @Autowired
+    EmailService emailService;
+    @Autowired
     TicketRepository ticketRepository;
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
     @Autowired
-    DoctorRepository doctorRepository;
+    DoctorService doctorService;
     @Autowired
     ScheduleRepository scheduleRepository;
     public List<Ticket> findAllTickets() {
@@ -35,14 +35,19 @@ public class TicketService {
     }
 
     public void updateTicket(Ticket unknownTicket) {
-        User user = userRepository.findByUsername(unknownTicket.getUser().getUsername());
+        User user = userService.findByUsername(unknownTicket.getUser().getUsername());
         Ticket ticket = ticketRepository.findById(unknownTicket.getId()).orElseThrow();
         ticket.setUser(user);
         ticketRepository.save(ticket);
+        String message = "Здравствуйте," + user.getFirstName() + "! Вы были записаны на прием к "
+                + ticket.getSchedule().getDoctor().getUser().getFirstName() + ' '
+                + ticket.getSchedule().getDoctor().getUser().getLastName() + ' '
+                + "Дата и время: " + ticket.getSchedule().getDate() + ' ' + ticket.getTime();
+        emailService.sendEmail(user.getMail(), "Запись к врачу!", message);
     }
 
-    public List<Ticket> findDoctorTicket(Doctor unknownDoctor){
-        Doctor doctor = doctorRepository.findById(unknownDoctor.getId()).orElseThrow();
+    public List<Ticket> findDoctorFreeTicket(Doctor unknownDoctor){
+        Doctor doctor = doctorService.findById(unknownDoctor.getId());
         List<Schedule> futureSchedules = scheduleRepository.findAllByDoctorAndDateAfter(doctor, LocalDate.now());
 
         List<Ticket> tickets = new ArrayList<>();
@@ -67,5 +72,27 @@ public class TicketService {
             ticket.setTime(time);
             ticketRepository.save(ticket);
         }
+    }
+
+    public List<Ticket> findUserTicket(String username) {
+        User user = userService.findByUsername(username);
+        return ticketRepository.findAllByUser(user);
+    }
+
+    public List<Ticket> findDoctorBusyTicket(String username) {
+        Doctor doctor = doctorService.findByUser(userService.findByUsername(username));
+        List<Schedule> futureSchedules = scheduleRepository.findAllByDoctorAndDateAfter(doctor, LocalDate.now());
+
+        List<Ticket> tickets = new ArrayList<>();
+        for (Schedule schedule : futureSchedules) {
+            List<Ticket> doctorTickets = ticketRepository.findAllBySchedule(schedule);
+            for (Ticket ticket : doctorTickets) {
+                if (ticket.getUser() != null) {
+                    tickets.add(ticket);
+                }
+            }
+        }
+
+        return tickets;
     }
 }
