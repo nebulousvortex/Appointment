@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
         if (userFromDB != null || roleService.findById(1L) == null) {
             return false;
         }
-        user.setRoles(Collections.singleton((Role) roleService.findById(1L)));
+        user.setRoles(Collections.singleton(roleService.findById(1L)));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
     public void updateUserRole(User unknownUser, Long role_id) {
         if (roleService.findById(role_id) != null) {
             User user = userRepository.findByUsername(unknownUser.getUsername());
-            Role role = (Role) roleService.findById(role_id);
+            Role role = roleService.findById(role_id);
             Set<Role> userRoles = user.getRoles();
             userRoles.clear();
             userRoles.add(role);
