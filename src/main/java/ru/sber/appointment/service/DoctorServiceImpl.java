@@ -17,8 +17,6 @@ public class DoctorServiceImpl implements DoctorService {
     DoctorRepository doctorRepository;
     @Autowired
     UserService userService;
-    @Autowired
-    ScheduleService scheduleService;
 
     @Override
     public List<Doctor> findAllDoctors() {
@@ -63,7 +61,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor findByUser(User user) {
-        return (Doctor) doctorRepository.findByUser(user);
+        return doctorRepository.findByUser(user);
     }
 
     @Override
