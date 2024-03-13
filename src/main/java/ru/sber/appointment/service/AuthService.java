@@ -2,6 +2,7 @@ package ru.sber.appointment.service;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,28 +21,28 @@ import java.util.Map;
 public class AuthService {
 
     @Autowired
-    private final UserService userService;
+    UserService userService;
+    @Autowired
+    RoleService roleService;
     private final Map<String, String> refreshStorage = new HashMap<>();
     @Autowired
-    private final JwtProvider jwtProvider;
+    JwtProvider jwtProvider;
 
-    public AuthService(UserService userService, JwtProvider jwtProvider) {
-        this.userService = userService;
-        this.jwtProvider = jwtProvider;
-    }
 
-    public JwtResponse login(@NonNull JwtRequest authRequest) {
+    public ResponseEntity<?> login(@NonNull JwtRequest authRequest) {
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         final User user = (User) userService.loadUserByUsername(authRequest.getLogin());
+        if (user == null){
+            return ResponseEntity.ok(null);
+        }
         if ( bCryptPasswordEncoder.matches(authRequest.getPassword(), user.getPassword())){
             final String accessToken = jwtProvider.generateAccessToken(user);
             final String refreshToken = jwtProvider.generateRefreshToken(user);
             refreshStorage.put(user.getUsername(), refreshToken);
-            return new JwtResponse(accessToken, refreshToken);
+            return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken, user));
         } else {
-            System.out.println("Неправильный пароль");
+            return ResponseEntity.ok(null);
         }
-        return null;
     }
 
     public JwtResponse getAccessToken(@NonNull String refreshToken) {
@@ -77,6 +78,11 @@ public class AuthService {
 
     public JwtAuthentication getAuthInfo() {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    public boolean getAuthoritiesDoctor(String username){
+        User user = userService.userRepository.findByUsername(username);
+        return user.getAuthorities().contains(roleService.findByName("ROLE_DOCTOR"));
     }
 
 }

@@ -10,6 +10,7 @@ import ru.sber.appointment.jwt_manager.JwtRequest;
 import ru.sber.appointment.jwt_manager.JwtResponse;
 import ru.sber.appointment.jwt_manager.RefreshJwtRequest;
 import ru.sber.appointment.service.AuthService;
+import ru.sber.appointment.service.UserService;
 
 import javax.security.auth.message.AuthException;
 
@@ -19,11 +20,12 @@ public class AuthController {
 
     @Autowired
     AuthService authService;
+    @Autowired
+    UserService userService;
 
     @PostMapping("login")
-    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) {
-        final JwtResponse token = authService.login(authRequest);
-        return ResponseEntity.ok(token);
+    public ResponseEntity<?> login(@RequestBody JwtRequest authRequest) {
+        return authService.login(authRequest);
     }
 
     @PostMapping("token")
@@ -37,5 +39,4 @@ public class AuthController {
         final JwtResponse token = authService.refresh(request.getRefreshToken());
         return ResponseEntity.ok(token);
     }
-
 }
