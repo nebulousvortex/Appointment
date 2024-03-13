@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.sber.appointment.model.DayType;
 import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.Schedule;
-import ru.sber.appointment.repository.DoctorRepository;
 import ru.sber.appointment.repository.ScheduleRepository;
 
 import java.time.LocalDate;
@@ -14,7 +13,7 @@ import java.util.List;
 @Service
 public class ScheduleService {
     @Autowired
-    DoctorRepository doctorRepository;
+    DoctorService doctorService;
     @Autowired
     ScheduleRepository scheduleRepository;
     @Autowired
@@ -30,7 +29,7 @@ public class ScheduleService {
     }
 
     public void saveScheduleForWeek(Doctor unknownDoctor){
-        Doctor doctor = doctorRepository.findById(unknownDoctor.getId()).orElseThrow();
+        Doctor doctor = doctorService.findById(unknownDoctor.getId());
         LocalDate date = LocalDate.now();
         for (int i = 0; i < 7; i++) {
             Schedule schedule = new Schedule();
@@ -44,7 +43,7 @@ public class ScheduleService {
     }
 
     public void updateSchedule(Schedule unknownSchedule) {
-        Doctor doctor = doctorRepository.findById(unknownSchedule.getDoctor().getId()).orElseThrow();
+        Doctor doctor = doctorService.findById(unknownSchedule.getDoctor().getId());
         Schedule schedule = scheduleRepository.findByDateAndDoctor(unknownSchedule.getDate(), doctor);
         schedule.setDayType(unknownSchedule.getDayType());
         scheduleRepository.save(schedule);

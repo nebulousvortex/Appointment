@@ -20,4 +20,5 @@ public class JwtRequest {
     public String getPassword() {
         return password;
     }
+
 }
