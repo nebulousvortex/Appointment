@@ -1,11 +1,11 @@
-package ru.sber.appointment.service;
+package ru.sber.appointment.service.interfaces;
 
 import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.User;
 
 import java.util.List;
 
-interface DoctorService {
+public interface DoctorService {
     List<Doctor> findAllDoctors();
     void saveDoctor(Doctor doctor);
     void deleteDoctor(Doctor doctor);
