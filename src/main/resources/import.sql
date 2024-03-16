@@ -1,0 +1,4 @@
+INSERT INTO t_role (name) VALUES ('ROLE_USER');
+INSERT INTO t_role (name) VALUES ('ROLE_DOCTOR');
+INSERT INTO t_role (name) VALUES ('ROLE_ADMIN');
+
