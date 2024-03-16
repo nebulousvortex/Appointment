@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.sber.appointment.jwt_manager.JwtRequest;
 import ru.sber.appointment.jwt_manager.JwtResponse;
 import ru.sber.appointment.jwt_manager.RefreshJwtRequest;
-import ru.sber.appointment.service.AuthService;
+import ru.sber.appointment.service.AuthServiceImpl;
 
 import javax.security.auth.message.AuthException;
 
@@ -18,7 +18,7 @@ import javax.security.auth.message.AuthException;
 public class AuthController {
 
     @Autowired
-    AuthService authService;
+    AuthServiceImpl authService;
 
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody JwtRequest authRequest) {

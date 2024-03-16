@@ -6,28 +6,33 @@ import ru.sber.appointment.model.DayType;
 import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.Schedule;
 import ru.sber.appointment.repository.ScheduleRepository;
+import ru.sber.appointment.service.interfaces.DoctorService;
+import ru.sber.appointment.service.interfaces.ScheduleService;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class ScheduleService {
+public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     DoctorService doctorService;
     @Autowired
     ScheduleRepository scheduleRepository;
     @Autowired
-    TicketService ticketService;
+    TicketServiceImpl ticketService;
 
+    @Override
     public List<Schedule> findAllSchedule(){
         return scheduleRepository.findAll();
     }
 
+    @Override
     public void saveSchedule(Schedule schedule){
         scheduleRepository.save(schedule);
         ticketService.saveForDay(schedule);
     }
 
+    @Override
     public void saveScheduleForWeek(Doctor unknownDoctor){
         Doctor doctor = doctorService.findById(unknownDoctor.getId());
         LocalDate date = LocalDate.now();
@@ -42,6 +47,7 @@ public class ScheduleService {
         }
     }
 
+    @Override
     public void updateSchedule(Schedule unknownSchedule) {
         Doctor doctor = doctorService.findById(unknownSchedule.getDoctor().getId());
         Schedule schedule = scheduleRepository.findByDateAndDoctor(unknownSchedule.getDate(), doctor);

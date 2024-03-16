@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.User;
 import ru.sber.appointment.repository.DoctorRepository;
+import ru.sber.appointment.service.interfaces.DoctorService;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +17,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     DoctorRepository doctorRepository;
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
 
     @Override
     public List<Doctor> findAllDoctors() {
@@ -71,6 +72,5 @@ public class DoctorServiceImpl implements DoctorService {
             userService.updateUserRole(doctor.getUser(), 1L);
             doctorRepository.delete(doctor);
         }
-
     }
 }

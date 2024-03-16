@@ -11,23 +11,26 @@ import ru.sber.appointment.jwt_manager.JwtProvider;
 import ru.sber.appointment.jwt_manager.JwtRequest;
 import ru.sber.appointment.jwt_manager.JwtResponse;
 import ru.sber.appointment.model.User;
+import ru.sber.appointment.service.interfaces.AuthService;
+
 
 import javax.security.auth.message.AuthException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class AuthService {
+public class AuthServiceImpl implements AuthService {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
     @Autowired
-    RoleService roleService;
+    RoleServiceImpl roleService;
     private final Map<String, String> refreshStorage = new HashMap<>();
     @Autowired
     JwtProvider jwtProvider;
 
 
+    @Override
     public ResponseEntity<?> login(JwtRequest authRequest) {
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         final User user = (User) userService.loadUserByUsername(authRequest.getLogin());
@@ -44,6 +47,7 @@ public class AuthService {
         }
     }
 
+    @Override
     public JwtResponse getAccessToken(String refreshToken) {
         if (jwtProvider.validateRefreshToken(refreshToken)) {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
@@ -59,6 +63,7 @@ public class AuthService {
         return new JwtResponse(null, null);
     }
 
+    @Override
     public JwtResponse refresh(String refreshToken) throws AuthException {
         if (jwtProvider.validateRefreshToken(refreshToken)) {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
@@ -75,13 +80,21 @@ public class AuthService {
         throw new AuthException("Невалидный JWT токен");
     }
 
+    @Override
     public JwtAuthentication getAuthInfo() {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
 
+    @Override
     public boolean getAuthoritiesDoctor(String username){
         User user = userService.userRepository.findByUsername(username);
         return user.getAuthorities().contains(roleService.findByName("ROLE_DOCTOR"));
+    }
+
+    @Override
+    public boolean getAuthoritiesAdmin(String username){
+        User user = userService.userRepository.findByUsername(username);
+        return user.getAuthorities().contains(roleService.findByName("ROLE_ADMIN"));
     }
 
 }

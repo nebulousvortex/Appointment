@@ -8,6 +8,8 @@ import ru.sber.appointment.model.Ticket;
 import ru.sber.appointment.model.User;
 import ru.sber.appointment.repository.ScheduleRepository;
 import ru.sber.appointment.repository.TicketRepository;
+import ru.sber.appointment.service.interfaces.DoctorService;
+import ru.sber.appointment.service.interfaces.TicketService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,25 +17,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TicketService {
+public class TicketServiceImpl implements TicketService {
     @Autowired
-    EmailService emailService;
+    EmailServiceImpl emailService;
     @Autowired
     TicketRepository ticketRepository;
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
     @Autowired
     DoctorService doctorService;
     @Autowired
     ScheduleRepository scheduleRepository;
+    @Override
     public List<Ticket> findAllTickets() {
         return ticketRepository.findAll();
     }
 
+    @Override
     public void saveTicket(Ticket ticket) {
         ticketRepository.save(ticket);
     }
 
+    @Override
     public void updateTicket(Ticket unknownTicket) {
         User user = userService.findByUsername(unknownTicket.getUser().getUsername());
         Ticket ticket = ticketRepository.findById(unknownTicket.getId()).orElseThrow();
@@ -46,6 +51,7 @@ public class TicketService {
         emailService.sendEmail(user.getMail(), "Запись к врачу!", message);
     }
 
+    @Override
     public List<Ticket> findDoctorFreeTicket(Doctor unknownDoctor){
         Doctor doctor = doctorService.findById(unknownDoctor.getId());
         List<Schedule> futureSchedules = scheduleRepository.findAllByDoctorAndDateAfter(doctor, LocalDate.now());
@@ -63,6 +69,7 @@ public class TicketService {
         return tickets;
     }
 
+    @Override
     public void saveForDay(Schedule schedule){
         LocalTime time = LocalTime.now().withHour(8).withMinute(0).withSecond(0).withNano(0);
         for (int j = 0; j < 24; j++) {
@@ -74,11 +81,13 @@ public class TicketService {
         }
     }
 
+    @Override
     public List<Ticket> findUserTicket(String username) {
         User user = userService.findByUsername(username);
         return ticketRepository.findAllByUser(user);
     }
 
+    @Override
     public List<Ticket> findDoctorBusyTicket(String username) {
         Doctor doctor = doctorService.findByUser(userService.findByUsername(username));
         List<Schedule> futureSchedules = scheduleRepository.findAllByDoctorAndDateAfter(doctor, LocalDate.now());
