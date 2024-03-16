@@ -19,15 +19,12 @@ spring:
             enable: true
     port: 587
 
-  mvc:
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
-
   datasource:
     url: jdbc:postgresql://localhost:5432/AppointmentDB
     username: Vortex
     password: spaceofvortex
+    data: classpath:import.sql
+    initialize: true
 
   jpa:
     hibernate:
