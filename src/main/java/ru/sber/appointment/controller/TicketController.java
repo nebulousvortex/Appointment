@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.Ticket;
-import ru.sber.appointment.service.AuthService;
-import ru.sber.appointment.service.TicketService;
+import ru.sber.appointment.service.AuthServiceImpl;
+import ru.sber.appointment.service.TicketServiceImpl;
 
 import javax.servlet.ServletResponse;
 import java.io.IOException;
@@ -16,9 +16,9 @@ import java.util.List;
 @RequestMapping("api/v1/ticket")
 public class TicketController {
     @Autowired
-    TicketService ticketService;
+    TicketServiceImpl ticketService;
     @Autowired
-    AuthService authService;
+    AuthServiceImpl authService;
 
     @GetMapping("/getAll")
     public List<Ticket> getTickets(){

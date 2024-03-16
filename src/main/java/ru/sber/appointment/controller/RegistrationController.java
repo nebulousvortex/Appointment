@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.sber.appointment.model.User;
-import ru.sber.appointment.service.UserService;
+import ru.sber.appointment.service.UserServiceImpl;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class RegistrationController {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
     @PostMapping
     public ResponseEntity<?> addUser(@Valid @RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

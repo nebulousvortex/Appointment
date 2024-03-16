@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.Schedule;
-import ru.sber.appointment.service.ScheduleService;
+import ru.sber.appointment.service.ScheduleServiceImpl;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class ScheduleController {
 
     @Autowired
-    ScheduleService scheduleService;
+    ScheduleServiceImpl scheduleService;
 
     @GetMapping("/get")
     public List<Schedule> getSchedule(){

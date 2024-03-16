@@ -55,6 +55,18 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets = new ArrayList<>();
 
+    public User() {
+    }
+
+    public User(Long id, String firstName, String surName, String lastName,  String username, String password) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.surName = surName;
+        this.username = username;
+        this.password = password;
+    }
+
     @PreRemove
     private void removeRoles() {
         roles.clear();
