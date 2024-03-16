@@ -25,14 +25,6 @@ public class DoctorController {
         return doctorService.findAllDoctors();
     }
 
-    @PostMapping("/post")
-    public void saveDoctor(@RequestBody Doctor doctor){
-        doctorService.saveDoctor(doctor);
-    }
-
-    @DeleteMapping("/delete")
-    public void deleteDoctor(@RequestBody Doctor doctor){ doctorService.deleteDoctor(doctor); }
-
     @PutMapping("/put")
     public void updateDoctor(@RequestBody Doctor doctor){
         doctorService.updateDoctor(doctor);
