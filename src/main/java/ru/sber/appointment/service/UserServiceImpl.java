@@ -2,7 +2,6 @@ package ru.sber.appointment.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -79,11 +78,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Object> findByFirstName(String firstName) {
-        return Collections.singletonList(userRepository.findByFirstName(firstName));
+    public List<User> findByFirstName(String firstName) {
+        return userRepository.findByFirstName(firstName);
     }
     @Override
-    public List<Object> findByLastName(String lastName) {
-        return Collections.singletonList(userRepository.findByLastName(lastName));
+    public List<User> findByLastName(String lastName) {
+        return userRepository.findByLastName(lastName);
     }
 }

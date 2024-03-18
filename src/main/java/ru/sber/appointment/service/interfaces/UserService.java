@@ -19,7 +19,7 @@ public interface UserService extends UserDetailsService {
 
     User findByUsername(String username);
 
-    List<Object> findByFirstName(String firstName);
+    List<User> findByFirstName(String firstName);
 
-    List<Object> findByLastName(String lastName);
+    List<User> findByLastName(String lastName);
 }

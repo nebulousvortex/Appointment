@@ -8,7 +8,7 @@ import ru.sber.appointment.model.User;
 import ru.sber.appointment.repository.DoctorRepository;
 import ru.sber.appointment.service.interfaces.DoctorService;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,12 +38,28 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<Doctor> findByFirstName(String firstName) {
-        return Collections.singletonList(doctorRepository.findByUser((User) userService.findByFirstName(firstName).get(0)));
+        List<User> usersWithFirstName = userService.findByFirstName(firstName);
+        List<Doctor> doctors = new ArrayList<>();
+        for (User user : usersWithFirstName) {
+            Doctor doctor = doctorRepository.findByUser(user);
+            if (doctor != null) {
+                doctors.add(doctor);
+            }
+        }
+        return doctors;
     }
 
     @Override
     public List<Doctor> findByLastName(String lastName) {
-        return Collections.singletonList(doctorRepository.findByUser((User) userService.findByLastName(lastName).get(0)));
+        List<User> usersWithLastName = userService.findByLastName(lastName);
+        List<Doctor> doctors = new ArrayList<>();
+        for (User user : usersWithLastName) {
+            Doctor doctor = doctorRepository.findByUser(user);
+            if (doctor != null) {
+                doctors.add(doctor);
+            }
+        }
+        return doctors;
     }
 
     @Override
