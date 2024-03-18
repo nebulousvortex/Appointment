@@ -41,16 +41,20 @@ public class BotService extends TelegramLongPollingBot {
         if (update.getMessage().isCommand()){
             if(update.getMessage().getText().startsWith("/login")){
                 login(update, sendMessage, chatId);
-            }
+            } else
             if(update.getMessage().getText().startsWith("/doctors")){
                 getDoctors(update, sendMessage, chatId);
-            }
+            } else
             if(update.getMessage().getText().startsWith("/ticket")){
                 getTickets(update, sendMessage, chatId);
-            }
+            } else
             if(update.getMessage().getText().startsWith("/appoint")){
                 sendQR(update, sendMessage, chatId);
+            } else {
+                sendMessage.setText("Не понимаю вас!!!");
             }
+        } else {
+            sendMessage.setText("Не понимаю вас!!!");
         }
 
         try {
