@@ -12,6 +12,9 @@ import ru.sber.appointment.service.interfaces.ScheduleService;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Сервис для работы с расписанием врачей.
+ */
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
@@ -32,6 +35,10 @@ public class ScheduleServiceImpl implements ScheduleService {
         ticketService.saveForDay(schedule);
     }
 
+    /**
+     * Метод для создания расписания на неделю для определенного врача.
+     * @param unknownDoctor объект врача, для которого нужно создать расписание
+     */
     @Override
     public void saveScheduleForWeek(Doctor unknownDoctor){
         Doctor doctor = doctorService.findById(unknownDoctor.getId());

@@ -11,6 +11,9 @@ import ru.sber.appointment.service.interfaces.DoctorService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сервис для работы с объектами врачей.
+ */
 @Service
 @Primary
 public class DoctorServiceImpl implements DoctorService {

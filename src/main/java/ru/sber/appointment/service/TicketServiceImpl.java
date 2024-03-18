@@ -16,6 +16,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сервис для работы с талонами на прием у врачей.
+ */
 @Service
 public class TicketServiceImpl implements TicketService {
     @Autowired
@@ -43,6 +46,10 @@ public class TicketServiceImpl implements TicketService {
         ticketRepository.save(ticket);
     }
 
+    /**
+     * Метод для обновления информации о талоне на прием и отправки уведомления на почту.
+     * @param unknownTicket объект с обновленными данными о талоне
+     */
     @Override
     public void updateTicket(Ticket unknownTicket) {
         User user = userService.findByUsername(unknownTicket.getUser().getUsername());
@@ -56,6 +63,11 @@ public class TicketServiceImpl implements TicketService {
         emailService.sendEmail(user.getMail(), "Запись к врачу!", message);
     }
 
+    /**
+     * Метод для поиска свободных и актуальных талонов у определенного врача.
+     * @param unknownDoctor объект врача
+     * @return список свободных талонов
+     */
     @Override
     public List<Ticket> findDoctorFreeTicket(Doctor unknownDoctor){
         Doctor doctor = doctorService.findById(unknownDoctor.getId());
@@ -92,6 +104,11 @@ public class TicketServiceImpl implements TicketService {
         return ticketRepository.findAllByUser(user);
     }
 
+    /**
+     * Метод для поиска занятых талонов у определенного врача.
+     * @param username имя пользователя (врача)
+     * @return список занятых талонов
+     */
     @Override
     public List<Ticket> findDoctorBusyTicket(String username) {
         Doctor doctor = doctorService.findByUser(userService.findByUsername(username));

@@ -1,4 +1,4 @@
-package ru.sber.appointment.configuration;
+package ru.sber.appointment.jwt_manager;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

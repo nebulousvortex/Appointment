@@ -1,7 +1,7 @@
 package ru.sber.appointment.service.interfaces;
 
 import org.springframework.http.ResponseEntity;
-import ru.sber.appointment.configuration.JwtAuthentication;
+import ru.sber.appointment.jwt_manager.JwtAuthentication;
 import ru.sber.appointment.jwt_manager.JwtRequest;
 import ru.sber.appointment.jwt_manager.JwtResponse;
 

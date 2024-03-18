@@ -16,6 +16,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+/**
+ * Компонент для создания и проверки JWT токенов.
+ */
 @Component
 public class JwtProvider {
 
@@ -23,6 +26,12 @@ public class JwtProvider {
     private final SecretKey jwtRefreshSecret;
     private final SecretKey jwtConfirmSecret;
 
+    /**
+     * Конструктор класса.
+     * @param jwtAccessSecret секретный ключ для access токена
+     * @param jwtRefreshSecret секретный ключ для refresh токена
+     * @param jwtConfirmSecret секретный ключ для confirm токена
+     */
     public JwtProvider(
             @Value("${jwt.secret.access}") String jwtAccessSecret,
             @Value("${jwt.secret.refresh}") String jwtRefreshSecret,

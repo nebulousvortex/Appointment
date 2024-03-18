@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
-import ru.sber.appointment.configuration.JwtAuthentication;
+import ru.sber.appointment.jwt_manager.JwtAuthentication;
 import ru.sber.appointment.jwt_manager.JwtProvider;
 import ru.sber.appointment.jwt_manager.JwtUtils;
 
@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Класс для фильтрации JWT токена.
+ */
 @Component
 public class JwtFilter extends GenericFilterBean {
 
@@ -32,6 +35,14 @@ public class JwtFilter extends GenericFilterBean {
         this.jwtProvider = jwtProvider;
     }
 
+    /**
+     * Метод для фильтрации запросов и проверки JWT токена.
+     * @param request запрос
+     * @param response ответ
+     * @param fc цепочка фильтров
+     * @throws IOException если произошла ошибка ввода/вывода
+     * @throws ServletException если происходит ошибка связанная с сервлетами
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
             throws IOException, ServletException {
@@ -52,6 +63,11 @@ public class JwtFilter extends GenericFilterBean {
         fc.doFilter(request, response);
     }
 
+    /**
+     * Метод для извлечения токена из запроса.
+     * @param request HTTP запрос
+     * @return токен JWT
+     */
     private String getTokenFromRequest(HttpServletRequest request) {
         final String bearer = request.getHeader(AUTHORIZATION);
         if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {

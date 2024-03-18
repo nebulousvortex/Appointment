@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.sber.appointment.configuration.JwtAuthentication;
+import ru.sber.appointment.jwt_manager.JwtAuthentication;
 import ru.sber.appointment.jwt_manager.JwtProvider;
 import ru.sber.appointment.jwt_manager.JwtRequest;
 import ru.sber.appointment.jwt_manager.JwtResponse;
@@ -18,6 +18,9 @@ import javax.security.auth.message.AuthException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Сервис для авторизации и аутентификации пользователей.
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -29,7 +32,11 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     JwtProvider jwtProvider;
 
-
+    /**
+     * Метод для выполнения входа пользователя в систему.
+     * @param authRequest объект с данными авторизации пользователя
+     * @return ответ с JWT токенами и информацией о пользователе
+     */
     @Override
     public ResponseEntity<?> login(JwtRequest authRequest) {
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -47,6 +54,11 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    /**
+     * Метод для получения нового access токена на основе refresh токена.
+     * @param refreshToken refresh токен
+     * @return объект с новым access токеном
+     */
     @Override
     public JwtResponse getAccessToken(String refreshToken) {
         if (jwtProvider.validateRefreshToken(refreshToken)) {
@@ -63,6 +75,12 @@ public class AuthServiceImpl implements AuthService {
         return new JwtResponse(null, null);
     }
 
+    /**
+     * Метод для обновления access и refresh токенов.
+     * @param refreshToken текущий refresh токен
+     * @return объект с новым access и refresh токенами
+     * @throws AuthException если токен невалидный
+     */
     @Override
     public JwtResponse refresh(String refreshToken) throws AuthException {
         if (jwtProvider.validateRefreshToken(refreshToken)) {
@@ -85,12 +103,22 @@ public class AuthServiceImpl implements AuthService {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
 
+    /**
+     * Метод для проверки роли "DOCTOR" у пользователя.
+     * @param username имя пользователя
+     * @return true, если у пользователя есть роль "DOCTOR", иначе false
+     */
     @Override
     public boolean getAuthoritiesDoctor(String username){
         User user = userService.userRepository.findByUsername(username);
         return user.getAuthorities().contains(roleService.findByName("ROLE_DOCTOR"));
     }
 
+    /**
+     * Метод для проверки роли "ADMIN" у пользователя.
+     * @param username имя пользователя
+     * @return true, если у пользователя есть роль "ADMIN", иначе false
+     */
     @Override
     public boolean getAuthoritiesAdmin(String username){
         User user = userService.userRepository.findByUsername(username);

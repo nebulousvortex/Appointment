@@ -14,14 +14,15 @@ import ru.sber.appointment.model.User;
 
 import java.util.List;
 
+/**
+ * Сервис для работы с Telegram ботом.
+ */
 @Service
 public class BotService extends TelegramLongPollingBot {
-
     @Autowired
     public BotService(TelegramBotsApi telegramBotsApi) throws TelegramApiException {
         telegramBotsApi.registerBot(this);
     }
-
     @Autowired
     DoctorServiceImpl doctorService;
     @Autowired
@@ -33,6 +34,11 @@ public class BotService extends TelegramLongPollingBot {
     private String username;
     private List<Doctor> doctors;
     private List<Ticket> tikets;
+
+    /**
+     * Метод для обработки обновлений от пользователя.
+     * @param update объект с информацией об обновлении
+     */
     @Override
     public void onUpdateReceived(Update update) {
         String chatId = update.getMessage().getChatId().toString();

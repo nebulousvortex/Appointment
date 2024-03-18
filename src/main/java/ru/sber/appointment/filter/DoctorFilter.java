@@ -6,8 +6,18 @@ import ru.sber.appointment.service.DoctorServiceImpl;
 
 import java.util.List;
 
+/**
+ * Компонент для фильтрации списка врачей.
+ */
 @Component
 public class DoctorFilter {
+
+    /**
+     * Метод для фильтрации списка врачей по заданным критериям.
+     * @param doctorService сервис работы с врачами
+     * @param doctor объект с критериями фильтрации
+     * @return отфильтрованный список врачей
+     */
     public List<Doctor> filterDoctor(DoctorServiceImpl doctorService, Doctor doctor){
         List<Doctor> resultDoctorList = doctorService.findAllDoctors();
         if(doctor.getUser() != null) {

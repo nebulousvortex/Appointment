@@ -16,6 +16,9 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 
+/**
+ * Сервис для отправки электронных писем.
+ */
 @Service
 public class EmailServiceImpl implements EmailService {
     @Autowired
@@ -23,6 +26,12 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     JwtProvider jwtProvider;
 
+    /**
+     * Метод для отправки простого текстового электронного письма.
+     * @param to адрес получателя
+     * @param subject тема письма
+     * @param text текст письма
+     */
     @Override
     @Async
     public void sendEmail(String to, String subject, String text) {
@@ -35,6 +44,12 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
     }
 
+    /**
+     * Метод для отправки электронного письма с прикрепленным QR-кодом.
+     * @param to адрес получателя
+     * @param username имя пользователя
+     * @param id идентификатор записи
+     */
     @Override
     @Async
     public void sendEmailWithQR(String to, String username, Long id) {

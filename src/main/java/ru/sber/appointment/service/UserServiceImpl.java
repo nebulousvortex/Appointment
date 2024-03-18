@@ -15,6 +15,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Сервис для работы с пользователями.
+ */
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -50,6 +53,11 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    /**
+     * Метод для обновления роли пользователя.
+     * @param unknownUser объект пользователя
+     * @param role_id идентификатор роли
+     */
     @Override
     public void updateUserRole(User unknownUser, Long role_id) {
         if (roleService.findById(role_id) != null) {
