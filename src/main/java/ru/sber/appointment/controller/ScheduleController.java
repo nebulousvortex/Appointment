@@ -2,7 +2,6 @@ package ru.sber.appointment.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.Schedule;
 import ru.sber.appointment.service.ScheduleServiceImpl;
 

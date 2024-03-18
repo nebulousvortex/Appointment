@@ -9,14 +9,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriUtils;
 import ru.sber.appointment.jwt_manager.JwtProvider;
 import ru.sber.appointment.service.interfaces.EmailService;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service

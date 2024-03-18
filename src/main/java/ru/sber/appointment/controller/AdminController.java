@@ -10,9 +10,6 @@ import ru.sber.appointment.service.DoctorServiceImpl;
 import ru.sber.appointment.service.ScheduleServiceImpl;
 import ru.sber.appointment.service.UserServiceImpl;
 
-import javax.servlet.ServletResponse;
-import java.io.IOException;
-
 @RestController
 @RequestMapping("api/v1/admin/{username}")
 public class AdminController {
