@@ -34,6 +34,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public Ticket findById(Long id) {
+        return ticketRepository.findById(id).orElseThrow();
+    }
+
+    @Override
     public void saveTicket(Ticket ticket) {
         ticketRepository.save(ticket);
     }
@@ -44,9 +49,9 @@ public class TicketServiceImpl implements TicketService {
         Ticket ticket = ticketRepository.findById(unknownTicket.getId()).orElseThrow();
         ticket.setUser(user);
         ticketRepository.save(ticket);
-        String message = "Здравствуйте," + user.getFirstName() + "! Вы были записаны на прием к "
+        String message = "Здравствуйте, \n" + user.getFirstName() + "! Вы были записаны на прием к "
                 + ticket.getSchedule().getDoctor().getUser().getFirstName() + ' '
-                + ticket.getSchedule().getDoctor().getUser().getLastName() + ' '
+                + ticket.getSchedule().getDoctor().getUser().getLastName() + '\n'
                 + "Дата и время: " + ticket.getSchedule().getDate() + ' ' + ticket.getTime();
         emailService.sendEmail(user.getMail(), "Запись к врачу!", message);
     }

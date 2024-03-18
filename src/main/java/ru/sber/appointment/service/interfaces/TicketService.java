@@ -9,6 +9,8 @@ import java.util.List;
 public interface TicketService {
     List<Ticket> findAllTickets();
 
+    Ticket findById(Long id);
+
     void saveTicket(Ticket ticket);
 
     void updateTicket(Ticket unknownTicket);
