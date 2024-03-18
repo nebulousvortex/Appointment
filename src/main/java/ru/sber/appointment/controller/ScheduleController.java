@@ -19,10 +19,6 @@ public class ScheduleController {
         return scheduleService.findAllSchedule();
     }
 
-    @PostMapping("/post/schedules")
-    public void saveSchedule(@RequestBody(required = false) Schedule schedule){
-        scheduleService.saveSchedule(schedule);
-    }
     @PutMapping("/put/schedules")
     public void updateDayType(@RequestBody Schedule schedule){
         scheduleService.updateSchedule(schedule);

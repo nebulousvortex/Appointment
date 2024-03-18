@@ -1,6 +1,7 @@
 package ru.sber.appointment.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.appointment.filter.DoctorFilter;
 import ru.sber.appointment.model.Doctor;
@@ -33,7 +34,9 @@ public class DoctorController {
         return doctorService.findAllDoctors();
     }
 
+
     @PutMapping("/put/doctors")
+    @PreAuthorize("denyAll")
     public void updateDoctor(@RequestBody Doctor doctor){
         doctorService.updateDoctor(doctor);
     }

@@ -2,6 +2,7 @@ package ru.sber.appointment.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.appointment.jwt_manager.JwtProvider;
 import ru.sber.appointment.model.Doctor;
@@ -25,6 +26,7 @@ public class TicketController {
     AuthServiceImpl authService;
 
     @GetMapping("/get/tickets")
+    @PreAuthorize("denyAll")
     public List<Ticket> getTickets(){
         return ticketService.findAllTickets();
     }
@@ -35,6 +37,7 @@ public class TicketController {
     }
 
     @PostMapping("/post/tickets")
+    @PreAuthorize("denyAll")
     public void saveTicket(@RequestBody(required = false) Ticket ticket){
         ticketService.saveTicket(ticket);
     }
