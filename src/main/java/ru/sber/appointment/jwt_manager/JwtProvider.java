@@ -21,13 +21,16 @@ public class JwtProvider {
 
     private final SecretKey jwtAccessSecret;
     private final SecretKey jwtRefreshSecret;
+    private final SecretKey jwtConfirmSecret;
 
     public JwtProvider(
             @Value("${jwt.secret.access}") String jwtAccessSecret,
-            @Value("${jwt.secret.refresh}") String jwtRefreshSecret
+            @Value("${jwt.secret.refresh}") String jwtRefreshSecret,
+            @Value("${jwt.secret.confirm}") String jwtConfirmSecret
     ) {
         this.jwtAccessSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtAccessSecret));
         this.jwtRefreshSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtRefreshSecret));
+        this.jwtConfirmSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtConfirmSecret));
     }
 
     public String generateAccessToken(@NonNull User user) {
@@ -38,6 +41,17 @@ public class JwtProvider {
                 .setSubject(user.getUsername())
                 .setExpiration(accessExpiration)
                 .signWith(jwtAccessSecret)
+                .compact();
+    }
+
+    public String generateConfirmToken(@NonNull String username) {
+        final LocalDateTime now = LocalDateTime.now();
+        final Instant accessExpirationInstant = now.plusMinutes(10).atZone(ZoneId.systemDefault()).toInstant();
+        final Date accessExpiration = Date.from(accessExpirationInstant);
+        return Jwts.builder()
+                .setSubject(username)
+                .setExpiration(accessExpiration)
+                .signWith(jwtConfirmSecret)
                 .compact();
     }
 
@@ -54,6 +68,9 @@ public class JwtProvider {
 
     public boolean validateAccessToken(@NonNull String accessToken) {
         return validateToken(accessToken, jwtAccessSecret);
+    }
+    public boolean validateConfirmToken(@NonNull String confirmToken) {
+        return validateToken(confirmToken, jwtConfirmSecret);
     }
 
     public boolean validateRefreshToken(@NonNull String refreshToken) {
