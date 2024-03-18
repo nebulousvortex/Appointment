@@ -9,7 +9,7 @@ import ru.sber.appointment.service.DoctorServiceImpl;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/doctors")
+@RequestMapping("/api/v1/doctor")
 public class DoctorController {
 
     @Autowired
@@ -17,7 +17,7 @@ public class DoctorController {
     @Autowired
     DoctorFilter filter;
 
-    @GetMapping("/get")
+    @GetMapping("/get/doctors")
     public List<Doctor> findDoctors(@RequestBody(required = false) Doctor doctor){
         if (doctor != null) {
             return filter.filterDoctor(doctorService, doctor);
@@ -25,9 +25,18 @@ public class DoctorController {
         return doctorService.findAllDoctors();
     }
 
-    @PutMapping("/put")
+    @PostMapping("/get/doctors")
+    public List<Doctor> filteredDoctors(@RequestBody(required = false) Doctor doctor){
+        if (doctor != null) {
+            return filter.filterDoctor(doctorService, doctor);
+        }
+        return doctorService.findAllDoctors();
+    }
+
+    @PutMapping("/put/doctors")
     public void updateDoctor(@RequestBody Doctor doctor){
         doctorService.updateDoctor(doctor);
     }
+
 
 }

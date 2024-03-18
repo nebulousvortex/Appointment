@@ -14,7 +14,7 @@ import javax.servlet.ServletResponse;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("api/v1/admin")
+@RequestMapping("api/v1/admin/{username}")
 public class AdminController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class AdminController {
     @Autowired
     DoctorServiceImpl doctorService;
 
-    @DeleteMapping("{username}/deleteUser")
+    @DeleteMapping("delete/user")
     public ResponseEntity<?> deleteUser(@PathVariable String username, @RequestBody User user){
         if (authService.getAuthoritiesAdmin(username)){
             userService.deleteUser(user);
@@ -37,7 +37,7 @@ public class AdminController {
         return null;
     }
 
-    @DeleteMapping("{username}/deleteDoctor")
+    @DeleteMapping("delete/doctor")
     public ResponseEntity<?> deleteDoctor(@PathVariable String username, @RequestBody Doctor doctor){
         if (authService.getAuthoritiesAdmin(username)){
             doctorService.deleteDoctor(doctor);
@@ -46,7 +46,7 @@ public class AdminController {
         return null;
     }
 
-    @PostMapping("{username}/saveDoctor")
+    @PostMapping("post/doctor")
     public ResponseEntity<?> saveDoctor(@PathVariable String username, @RequestBody Doctor doctor){
         if (authService.getAuthoritiesAdmin(username)){
             doctorService.saveDoctor(doctor);
@@ -55,7 +55,7 @@ public class AdminController {
         return null;
     }
 
-    @PostMapping("{username}/postForWeek")
+    @PostMapping("post/schedule/bulk")
     public ResponseEntity<?> saveScheduleForWeek(@PathVariable String username, @RequestBody Doctor doctor){
         if (authService.getAuthoritiesAdmin(username)){
             scheduleService.saveScheduleForWeek(doctor);
@@ -64,13 +64,12 @@ public class AdminController {
         return null;
     }
 
-    @GetMapping("{username}")
-    public ResponseEntity<?> getDoctorBusyTickets(@PathVariable String username, ServletResponse response) throws IOException {
+    @GetMapping("/get")
+    public ResponseEntity<?> getAdmin(@PathVariable String username){
         if (authService.getAuthoritiesAdmin(username)){
             return ResponseEntity.ok("OK");
         }
         return null;
     }
-
 
 }

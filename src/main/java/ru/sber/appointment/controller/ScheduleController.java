@@ -15,22 +15,16 @@ public class ScheduleController {
     @Autowired
     ScheduleServiceImpl scheduleService;
 
-    @GetMapping("/get")
+    @GetMapping("/get/schedules")
     public List<Schedule> getSchedule(){
         return scheduleService.findAllSchedule();
     }
 
-    @PostMapping("/post")
+    @PostMapping("/post/schedules")
     public void saveSchedule(@RequestBody(required = false) Schedule schedule){
         scheduleService.saveSchedule(schedule);
     }
-
-    @PostMapping("/postForWeek")
-    public void saveScheduleForWeek(@RequestBody Doctor doctor){
-        scheduleService.saveScheduleForWeek(doctor);
-    }
-
-    @PutMapping("/updateSchedule")
+    @PutMapping("/put/schedules")
     public void updateDayType(@RequestBody Schedule schedule){
         scheduleService.updateSchedule(schedule);
     }
