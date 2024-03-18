@@ -7,5 +7,5 @@ public interface EmailService {
     void sendEmail(String to, String subject, String text);
 
     @Async
-    void sendEmailWithQR(String to, String subject, String text);
+    void sendEmailWithQR(String to, String username, Long id);
 }
