@@ -65,7 +65,7 @@ public class DoctorServiceImplTest {
         User user = new User();
         user.setFirstName("Федор");
         Mockito.when(userService.findByFirstName(Mockito.anyString())).thenReturn(Collections.singletonList(user));
-
+        Mockito.when(doctorRepository.findByUser(Mockito.any())).thenReturn(new Doctor());
         List<Doctor> result = doctorService.findByFirstName("Федор");
 
         assertEquals(1, result.size());
@@ -76,7 +76,7 @@ public class DoctorServiceImplTest {
         User user = new User();
         user.setLastName("Слобожанин");
         Mockito.when(userService.findByLastName(Mockito.anyString())).thenReturn(Collections.singletonList(user));
-
+        Mockito.when(doctorRepository.findByUser(Mockito.any())).thenReturn(new Doctor());
         List<Doctor> result = doctorService.findByLastName("Слобожанин");
 
         assertEquals(1, result.size());
