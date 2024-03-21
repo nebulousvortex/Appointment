@@ -27,46 +27,30 @@ public class AdminController {
 
     @DeleteMapping("delete/user")
     public ResponseEntity<?> deleteUser(@PathVariable String username, @RequestBody User user){
-        if (authService.getAuthoritiesAdmin(username)){
-            userService.deleteUser(user);
-            return ResponseEntity.ok("OK");
-        }
-        return null;
+        userService.deleteUser(user);
+        return ResponseEntity.ok("OK");
     }
 
     @DeleteMapping("delete/doctor")
     public ResponseEntity<?> deleteDoctor(@PathVariable String username, @RequestBody Doctor doctor){
-        if (authService.getAuthoritiesAdmin(username)){
-            doctorService.deleteDoctor(doctor);
-            return ResponseEntity.ok("OK");
-        }
-        return null;
+        doctorService.deleteDoctor(doctor);
+        return ResponseEntity.ok("OK");
     }
 
     @PostMapping("post/doctor")
     public ResponseEntity<?> saveDoctor(@PathVariable String username, @RequestBody Doctor doctor){
-        if (authService.getAuthoritiesAdmin(username)){
-            doctorService.saveDoctor(doctor);
-            return ResponseEntity.ok("OK");
-        }
-        return null;
+        doctorService.saveDoctor(doctor);
+        return ResponseEntity.ok("OK");
     }
 
     @PostMapping("post/schedule/bulk")
     public ResponseEntity<?> saveScheduleForWeek(@PathVariable String username, @RequestBody Doctor doctor){
-        if (authService.getAuthoritiesAdmin(username)){
-            scheduleService.saveScheduleForWeek(doctor);
-            return ResponseEntity.ok("OK");
-        }
-        return null;
+        scheduleService.saveScheduleForWeek(doctor);
+        return ResponseEntity.ok("OK");
     }
 
     @GetMapping("/get")
     public ResponseEntity<?> getAdmin(@PathVariable String username){
-        if (authService.getAuthoritiesAdmin(username)){
-            return ResponseEntity.ok("OK");
-        }
-        return null;
+        return ResponseEntity.ok("OK");
     }
-
 }

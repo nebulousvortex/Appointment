@@ -11,6 +11,7 @@ import org.springframework.web.filter.GenericFilterBean;
 import ru.sber.appointment.jwt_manager.JwtAuthentication;
 import ru.sber.appointment.jwt_manager.JwtProvider;
 import ru.sber.appointment.jwt_manager.JwtUtils;
+import ru.sber.appointment.service.UserServiceImpl;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Класс для фильтрации JWT токена.
@@ -30,6 +32,8 @@ public class JwtFilter extends GenericFilterBean {
 
     @Autowired
     private final JwtProvider jwtProvider;
+    @Autowired
+    UserServiceImpl userService;
 
     public JwtFilter(JwtProvider jwtProvider) {
         this.jwtProvider = jwtProvider;
@@ -51,6 +55,7 @@ public class JwtFilter extends GenericFilterBean {
             if (token != null && jwtProvider.validateAccessToken(token)) {
                 final Claims claims = jwtProvider.getAccessClaims(token);
                 final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
+                jwtInfoToken.setRoles(userService.findByUsername(jwtInfoToken.getUsername()).getRoles());
                 jwtInfoToken.setAuthenticated(true);
                 SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
             }

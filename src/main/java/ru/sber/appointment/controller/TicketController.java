@@ -68,11 +68,6 @@ public class TicketController {
 
     @GetMapping("/get/tickets/doctor/{username}")
     public ResponseEntity<List<Ticket>> getDoctorBusyTickets(@PathVariable String username, ServletResponse response) throws IOException {
-        if (authService.getAuthoritiesDoctor(username)){
             return ResponseEntity.ok(ticketService.findDoctorBusyTicket(username));
-        }
-        else {
-            return ResponseEntity.ok(null);
-        }
     }
 }

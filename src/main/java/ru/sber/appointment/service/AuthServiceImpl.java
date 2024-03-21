@@ -95,34 +95,12 @@ public class AuthServiceImpl implements AuthService {
                 return new JwtResponse(accessToken, newRefreshToken);
             }
         }
-        throw new AuthException("Невалидный JWT токен");
+        throw new AuthException("not valid JWT");
     }
 
     @Override
     public JwtAuthentication getAuthInfo() {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
-    }
-
-    /**
-     * Метод для проверки роли "DOCTOR" у пользователя.
-     * @param username имя пользователя
-     * @return true, если у пользователя есть роль "DOCTOR", иначе false
-     */
-    @Override
-    public boolean getAuthoritiesDoctor(String username){
-        User user = userService.userRepository.findByUsername(username);
-        return user.getAuthorities().contains(roleService.findByName("ROLE_DOCTOR"));
-    }
-
-    /**
-     * Метод для проверки роли "ADMIN" у пользователя.
-     * @param username имя пользователя
-     * @return true, если у пользователя есть роль "ADMIN", иначе false
-     */
-    @Override
-    public boolean getAuthoritiesAdmin(String username){
-        User user = userService.userRepository.findByUsername(username);
-        return user.getAuthorities().contains(roleService.findByName("ROLE_ADMIN"));
     }
 
 }

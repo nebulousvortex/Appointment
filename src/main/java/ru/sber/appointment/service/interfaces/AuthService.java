@@ -15,8 +15,4 @@ public interface AuthService {
     JwtResponse refresh(String refreshToken) throws AuthException;
 
     JwtAuthentication getAuthInfo();
-
-    boolean getAuthoritiesDoctor(String username);
-
-    boolean getAuthoritiesAdmin(String username);
 }
