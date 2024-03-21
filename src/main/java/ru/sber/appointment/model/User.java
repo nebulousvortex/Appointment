@@ -24,7 +24,8 @@ public class User implements UserDetails {
     @NotBlank(message = "Отчество не может быть пустым")
     private String surName;
 
-    @NotBlank(message = "Имя пользователя не может быть пустым")
+    @Pattern(regexp = "^\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}$", message = "Полис должен быть в формате 0000 0000 0000 0000")
+    @NotBlank(message = "Полис не может быть пустым")
     private String username;
 
     @NotBlank(message = "Пароль не может быть пустым")
@@ -35,7 +36,7 @@ public class User implements UserDetails {
     private String mail;
 
     @NotBlank(message = "Номер телефона не может быть пустым")
-    @Pattern(regexp = "\\d{11}", message = "Номер телефона должен содержать 10 цифр")
+    @Pattern(regexp = "\\d{11}", message = "Номер телефона должен содержать 11 цифр")
     private String phone;
 
     @NotNull(message = "Дата рождения обязательна")
@@ -43,7 +44,7 @@ public class User implements UserDetails {
     @NotBlank(message = "")
     @Transient
     private String passwordConfirm;
-    @ManyToMany (cascade = CascadeType.ALL)
+    @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "t_user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
