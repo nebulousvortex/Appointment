@@ -1,6 +1,7 @@
 package ru.sber.appointment.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalTime;
 
 @Entity

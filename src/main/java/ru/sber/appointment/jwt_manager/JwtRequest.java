@@ -1,8 +1,12 @@
 package ru.sber.appointment.jwt_manager;
 
-public class JwtRequest {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
+public class JwtRequest {
+    @NotNull
     private String login;
+    @NotNull
     private String password;
 
     public void setLogin(String login) {

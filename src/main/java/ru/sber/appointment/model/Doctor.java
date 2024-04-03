@@ -1,6 +1,8 @@
 package ru.sber.appointment.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,9 @@ import java.util.List;
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "Id должен быть заполнен")
     private Long id;
+
     private String specialization;
     @OneToOne
     @JoinColumn(name = "user_id")

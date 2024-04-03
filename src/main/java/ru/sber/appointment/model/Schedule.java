@@ -1,6 +1,8 @@
 package ru.sber.appointment.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ public class Schedule {
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id")
+    @NotNull
     private Doctor doctor;
     @Enumerated(EnumType.STRING)
     private DayType dayType;

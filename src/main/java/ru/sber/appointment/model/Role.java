@@ -3,6 +3,7 @@ package ru.sber.appointment.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -11,6 +12,7 @@ public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Название не может быть пустым")
     private String name;
     @Transient
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
