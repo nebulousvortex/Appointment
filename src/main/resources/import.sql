@@ -36,13 +36,13 @@ INSERT INTO doctors(specialization, user_id) VALUES ('Окулист', 2), ('Т�
 
 
 
-INSERT INTO schedule(date, day_type, doctor_id) VALUES ('2024-03-28', 'WORK', 1);
+INSERT INTO schedule(date, day_type, doctor_id) VALUES ('2024-04-04', 'WORK', 1);
 
-INSERT INTO schedule(date, day_type, doctor_id) VALUES ('2024-03-28', 'WORK', 2);
+INSERT INTO schedule(date, day_type, doctor_id) VALUES ('2024-04-04', 'WORK', 2);
 
-INSERT INTO schedule(date, day_type, doctor_id) VALUES ('2024-03-28', 'WORK', 3);
+INSERT INTO schedule(date, day_type, doctor_id) VALUES ('2024-04-04', 'WORK', 3);
 
-INSERT INTO schedule(date, day_type, doctor_id) VALUES ('2024-03-28', 'WORK', 4);
+INSERT INTO schedule(date, day_type, doctor_id) VALUES ('2024-04-04', 'WORK', 4);
 
 
 
