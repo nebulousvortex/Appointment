@@ -3,6 +3,7 @@ package ru.sber.appointment.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import ru.sber.appointment.exception.NoSuchDoctorException;
 import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.User;
 import ru.sber.appointment.repository.DoctorRepository;
@@ -76,7 +77,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor findById(Long id) {
-        return doctorRepository.findById(id).orElseThrow();
+        return doctorRepository.findById(id).orElseThrow(() -> new NoSuchDoctorException("Не найден доктор с id " + id));
     }
 
     @Override

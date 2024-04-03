@@ -2,6 +2,7 @@ package ru.sber.appointment.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.sber.appointment.exception.NoSuchTicketException;
 import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.model.Schedule;
 import ru.sber.appointment.model.Ticket;
@@ -38,7 +39,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket findById(Long id) {
-        return ticketRepository.findById(id).orElseThrow();
+        return ticketRepository.findById(id).orElseThrow(()-> new NoSuchTicketException("Не найден талон с id " + id));
     }
 
     @Override
@@ -53,7 +54,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void updateTicket(Ticket unknownTicket) {
         User user = userService.findByUsername(unknownTicket.getUser().getUsername());
-        Ticket ticket = ticketRepository.findById(unknownTicket.getId()).orElseThrow();
+        Ticket ticket = ticketRepository.findById(unknownTicket.getId()).orElseThrow(()-> new NoSuchTicketException("Не найден талон с id " + unknownTicket.getId()));
         ticket.setUser(user);
         ticketRepository.save(ticket);
         String message = "Здравствуйте, \n" + user.getFirstName() + "! Вы были записаны на прием к "
@@ -72,7 +73,6 @@ public class TicketServiceImpl implements TicketService {
     public List<Ticket> findDoctorFreeTicket(Doctor unknownDoctor){
         Doctor doctor = doctorService.findById(unknownDoctor.getId());
         List<Schedule> futureSchedules = scheduleRepository.findAllByDoctorAndDateAfter(doctor, LocalDate.now());
-
         List<Ticket> tickets = new ArrayList<>();
         for (Schedule schedule : futureSchedules) {
             List<Ticket> doctorTickets = ticketRepository.findAllBySchedule(schedule);
