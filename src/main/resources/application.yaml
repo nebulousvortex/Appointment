@@ -1,11 +1,22 @@
 server:
   port: 8080
 
+message:
+  qrsend: Вам на почту выслан QR код. Просканируйте в течение 10 минут, чтобы подтвердить запись на прием.
+
 jwt:
   secret:
     access: qBTmv4oXFFR2GwjexDJ4t6fsIUIUhhXqlktXjXdkcyygs8nPVEwMfo29VDRRepYDVV5IkIxBMzr7OEHXEHd37w==
     refresh: zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg==
     confirm: BTmv4oXFFR2GwjexDJ4t6==qBTmv4oXFFR2GwjexDJ4t6==
+
+telegram:
+  token: 7159491936:AAHSTv9dgqGJSwHFgpCgA6OpncflLafIwy8
+  name: AppointmentBot
+
+mail:
+  qr: http://api.qrserver.com/v1/create-qr-code/?data=
+  confirm: http://localhost:8080/api/v1/ticket/put/tickets/confirmed/
 
 spring:
   mail:
