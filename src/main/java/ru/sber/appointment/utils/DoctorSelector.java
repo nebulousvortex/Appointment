@@ -1,4 +1,4 @@
-package ru.sber.appointment.filter;
+package ru.sber.appointment.utils;
 
 import org.springframework.stereotype.Component;
 import ru.sber.appointment.model.Doctor;
@@ -10,7 +10,7 @@ import java.util.List;
  * Компонент для фильтрации списка врачей.
  */
 @Component
-public class DoctorFilter {
+public class DoctorSelector {
 
     /**
      * Метод для фильтрации списка врачей по заданным критериям.

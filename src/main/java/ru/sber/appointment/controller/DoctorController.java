@@ -3,7 +3,7 @@ package ru.sber.appointment.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.appointment.filter.DoctorFilter;
+import ru.sber.appointment.utils.DoctorSelector;
 import ru.sber.appointment.model.Doctor;
 import ru.sber.appointment.service.DoctorServiceImpl;
 
@@ -16,15 +16,7 @@ public class DoctorController {
     @Autowired
     DoctorServiceImpl doctorService;
     @Autowired
-    DoctorFilter filter;
-
-    @GetMapping("/get/doctors")
-    public List<Doctor> findDoctors(@RequestBody(required = false) Doctor doctor){
-        if (doctor != null) {
-            return filter.filterDoctor(doctorService, doctor);
-        }
-        return doctorService.findAllDoctors();
-    }
+    DoctorSelector filter;
 
     @PostMapping("/get/doctors")
     public List<Doctor> filteredDoctors(@RequestBody(required = false) Doctor doctor){
