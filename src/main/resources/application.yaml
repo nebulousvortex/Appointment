@@ -11,7 +11,7 @@ jwt:
     confirm: BTmv4oXFFR2GwjexDJ4t6==qBTmv4oXFFR2GwjexDJ4t6==
 
 telegram:
-  token: 7159491936:AAHSTv9dgqGJSwHFgpCgA6OpncflLafIwy8
+  token: 
   name: AppointmentBot
 
 mail:
@@ -21,8 +21,8 @@ mail:
 spring:
   mail:
     host: smtp.gmail.com
-    username: vortexoofnebula@gmail.com
-    password: upzm spku knig fxqw
+    username: 
+    password: 
     properties:
       mail:
         smtp:
