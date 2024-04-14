@@ -8,7 +8,8 @@
   ### Инструкцию по использованию бота вы можете найти ниже, либо посмотреть ее при первом обращении к боту. Ниже представлен вариант общения с ботом.
   ### Обратите внимание, что для записи на прием через бота вам необходимо создать собственного пользователя, так как потребуется подтверждение по почте.
   
-![image](https://github.com/nebulousvortex/Appointment/assets/106030747/0af00079-3843-4fc5-8a16-b647eef5a39b) ![image](https://github.com/nebulousvortex/Appointment/assets/106030747/9394cb69-9b4f-48a1-b72c-76fb4275a249)
+![image](https://github.com/nebulousvortex/Appointment/assets/106030747/ed90fa82-bfdf-4648-8f26-86bc03eab964)
+
 
   ### Данное приложение расчитано на использование другим приложением - AppointmentWeb [https://github.com/nebulousvortex/Appointment_Web]
   ### Но ничто не мешает использовать Postman для тестирования. В resources проекта вы можете найти готовую коллекцию запросов. 
